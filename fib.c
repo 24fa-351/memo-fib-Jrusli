@@ -15,16 +15,10 @@ int main(int argc, char *argv[]) {
 
     int n = atoi(argv[1]);
 
-
-    if (n <= 0) {
-        fprintf(stderr, "Error: Input number must be a positive integer.\n");
-        return 1;
-    }
-
     unsigned long long *memo = (unsigned long long *)malloc((n + 1) * sizeof(unsigned long long));
 
-    for (int i = 0; i <= n; i++) {
-        memo[i] = -1;
+    for (int io = 0; io <= n; io++) {
+        memo[io] = -1;
     }
 
     unsigned long long result;
@@ -35,49 +29,45 @@ int main(int argc, char *argv[]) {
         result = iterative(n, memo);
     }
 
- 
     printf("%llu\n", result);
-
-  
-
     return 0;
 }
 
 
-unsigned long long recursive(int n, unsigned long long *memo) {
-    if (n == 1) {
+unsigned long long recursive(int input, unsigned long long *memo) {
+    if (input == 1) {
         return 0;
     }
-    if (n == 2) {
+    if (input == 2) {
         return 1;
     }
 
 
-    if (memo[n] != -1) {
-        return memo[n];
+    if (memo[input] != -1) {
+        return memo[input];
     }
 
-    memo[n] = recursive(n - 1, memo) + recursive(n - 2, memo);
-    return memo[n];
+    memo[input] = recursive(input - 1, memo) + recursive(input - 2, memo);
+    return memo[input];
 }
 
 
-unsigned long long iterative(int n, unsigned long long *memo) {
-    if (n == 1) {
+unsigned long long iterative(int input, unsigned long long *memo) {
+    if (input == 1) {
         return 0;
     }
-    if (n == 2) {
+    if (input == 2) {
         return 1;
     }
 
-    unsigned long long a = 0;
-    unsigned long long b = 1;
-    for (int i = 3; i <= n; i++) {
-        unsigned long long temp = b;
-        b = b + a;
-        a = temp;
+    unsigned long long num1 = 0;
+    unsigned long long num2 = 1;
+    for (int ix = 3; ix <= input; ix++) {
+        unsigned long long temp = num2;
+        num2 = num2 + num1;
+        num1 = temp;
     }
 
-    memo[n] = b;
-    return memo[n];
+    memo[input] = num2;
+    return memo[input];
 }
